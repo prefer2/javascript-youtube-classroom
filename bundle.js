@@ -163,7 +163,7 @@ var SearchVideoManager = /*#__PURE__*/function () {
     value: function fetchYoutubeData(keyword) {
       var _this2 = this;
 
-      return fetch(this.nextPageToken ? "".concat(DUMMY_YOUTUBE_API_ENDPOINT(keyword), "&pageToken=").concat(this.nextPageToken) : DUMMY_YOUTUBE_API_ENDPOINT(keyword)).then(function (response) {
+      return fetch(this.nextPageToken ? "".concat(YOUTUBE_API_ENDPOINT(keyword), "&pageToken=").concat(this.nextPageToken) : YOUTUBE_API_ENDPOINT(keyword)).then(function (response) {
         if (!response.ok) {
           throw new Error(response.status);
         }
