@@ -2,22 +2,24 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/SaveVideoManager.js":
-/*!************************************!*\
-  !*** ./src/js/SaveVideoManager.js ***!
-  \************************************/
+/***/ "./src/js/Manager/SaveVideoManager.js":
+/*!********************************************!*\
+  !*** ./src/js/Manager/SaveVideoManager.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SaveVideoManager)
 /* harmony export */ });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/js/constants.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../validation */ "./src/js/validation.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 
 
 
@@ -49,8 +51,12 @@ var SaveVideoManager = /*#__PURE__*/function () {
   }, {
     key: "saveVideoById",
     value: function saveVideoById(id) {
-      if (this.videoIds.length >= _constants__WEBPACK_IMPORTED_MODULE_0__.MAX_VIDEO_SAVE) {
+      if ((0,_validation__WEBPACK_IMPORTED_MODULE_1__.isOverVideoSaveMaxCount)(this.videoIds)) {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.MAX_VIDEO_SAVE);
+      }
+
+      if (this.findVideoById(id)) {
+        throw new Error('이미 저장한 동영상입니다');
       }
 
       this.videoIds.push(id);
@@ -65,10 +71,10 @@ var SaveVideoManager = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/SearchVideoManager.js":
-/*!**************************************!*\
-  !*** ./src/js/SearchVideoManager.js ***!
-  \**************************************/
+/***/ "./src/js/Manager/SearchVideoManager.js":
+/*!**********************************************!*\
+  !*** ./src/js/Manager/SearchVideoManager.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -77,7 +83,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
 /* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(node_fetch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
+/* harmony import */ var _youtubeApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../youtubeApi */ "./src/js/youtubeApi.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -100,18 +106,6 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 
 
-
-var DUMMY_YOUTUBE_API_ENDPOINT = function DUMMY_YOUTUBE_API_ENDPOINT(keyword) {
-  return "https://brave-lichterman-77e301.netlify.app/dummy/youtube/v3/search?part=snippet&q=".concat(keyword, "&maxResults=").concat(_constants__WEBPACK_IMPORTED_MODULE_1__.MAX_DATA_FETCH_AT_ONCE);
-};
-
-var YOUTUBE_API_ENDPOINT = function YOUTUBE_API_ENDPOINT(keyword) {
-  return "https://brave-lichterman-77e301.netlify.app/youtube/v3/search?part=snippet&q=".concat(keyword, "&maxResults=").concat(_constants__WEBPACK_IMPORTED_MODULE_1__.MAX_DATA_FETCH_AT_ONCE);
-};
-
-var WRONG_API_ENDPOINT = function WRONG_API_ENDPOINT(keyword) {
-  return "https://elastic-goldstine-10f16a.netlify.app/search?part=snippettt&q=".concat(keyword, "&maxResults=").concat(_constants__WEBPACK_IMPORTED_MODULE_1__.MAX_DATA_FETCH_AT_ONCE);
-};
 
 var _isLastPage = /*#__PURE__*/new WeakMap();
 
@@ -162,7 +156,7 @@ var SearchVideoManager = /*#__PURE__*/function () {
     value: function fetchYoutubeData(keyword) {
       var _this2 = this;
 
-      return node_fetch__WEBPACK_IMPORTED_MODULE_0___default()(this.nextPageToken ? "".concat(YOUTUBE_API_ENDPOINT(keyword), "&pageToken=").concat(this.nextPageToken) : YOUTUBE_API_ENDPOINT(keyword)).then(function (response) {
+      return node_fetch__WEBPACK_IMPORTED_MODULE_0___default()((0,_youtubeApi__WEBPACK_IMPORTED_MODULE_1__.YOUTUBE_API_ENDPOINT)(keyword, this.nextPageToken)).then(function (response) {
         if (!response.ok) {
           throw new Error(response.status);
         }
@@ -645,8 +639,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ YoutubeClassRoom)
 /* harmony export */ });
 /* harmony import */ var _View_SearchModalView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./View/SearchModalView */ "./src/js/View/SearchModalView.js");
-/* harmony import */ var _SearchVideoManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchVideoManager */ "./src/js/SearchVideoManager.js");
-/* harmony import */ var _SaveVideoManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaveVideoManager */ "./src/js/SaveVideoManager.js");
+/* harmony import */ var _Manager_SearchVideoManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Manager/SearchVideoManager */ "./src/js/Manager/SearchVideoManager.js");
+/* harmony import */ var _Manager_SaveVideoManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Manager/SaveVideoManager */ "./src/js/Manager/SaveVideoManager.js");
 /* harmony import */ var _View_HomeView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./View/HomeView */ "./src/js/View/HomeView.js");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
@@ -662,8 +656,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var YoutubeClassRoom = /*#__PURE__*/_createClass(function YoutubeClassRoom() {
   _classCallCheck(this, YoutubeClassRoom);
 
-  this.searchVideoManager = new _SearchVideoManager__WEBPACK_IMPORTED_MODULE_1__["default"]();
-  this.saveVideoManager = new _SaveVideoManager__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  this.searchVideoManager = new _Manager_SearchVideoManager__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  this.saveVideoManager = new _Manager_SaveVideoManager__WEBPACK_IMPORTED_MODULE_2__["default"]();
   this.homeView = new _View_HomeView__WEBPACK_IMPORTED_MODULE_3__["default"]();
   this.searchModalView = new _View_SearchModalView__WEBPACK_IMPORTED_MODULE_0__["default"](this.searchVideoManager, this.saveVideoManager);
 });
@@ -745,12 +739,58 @@ var parseDate = function parseDate(publishedDate) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isOverVideoSaveMaxCount": () => (/* binding */ isOverVideoSaveMaxCount),
 /* harmony export */   "validateSearchKeyword": () => (/* binding */ validateSearchKeyword)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
 
 var validateSearchKeyword = function validateSearchKeyword(searchKeyword) {
   if (searchKeyword.length < _constants__WEBPACK_IMPORTED_MODULE_0__.SEARCH_KEYWORD_MIN_LENGTH) throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.SEARCH_KEYWORD_MIN_LENGTH);
+};
+var isOverVideoSaveMaxCount = function isOverVideoSaveMaxCount(videoIds) {
+  return videoIds.length >= _constants__WEBPACK_IMPORTED_MODULE_0__.MAX_VIDEO_SAVE;
+};
+
+/***/ }),
+
+/***/ "./src/js/youtubeApi.js":
+/*!******************************!*\
+  !*** ./src/js/youtubeApi.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DUMMY_YOUTUBE_API_ENDPOINT": () => (/* binding */ DUMMY_YOUTUBE_API_ENDPOINT),
+/* harmony export */   "YOUTUBE_API_ENDPOINT": () => (/* binding */ YOUTUBE_API_ENDPOINT)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
+
+var REQUEST_PATH = 'youtube/v3/search';
+var HOST_URL = 'https://brave-lichterman-77e301.netlify.app/';
+var YOUTUBE_API_ENDPOINT = function YOUTUBE_API_ENDPOINT(keyword, pageToken) {
+  var url = new URL(REQUEST_PATH, HOST_URL);
+  var parameter = new URLSearchParams({
+    part: 'snippet',
+    maxResults: _constants__WEBPACK_IMPORTED_MODULE_0__.MAX_DATA_FETCH_AT_ONCE,
+    pageToken: pageToken || '',
+    q: keyword,
+    type: 'video'
+  });
+  url.search = parameter.toString();
+  return url;
+};
+var DUMMY_YOUTUBE_API_ENDPOINT = function DUMMY_YOUTUBE_API_ENDPOINT(keyword, pageToken) {
+  var url = new URL("dummy/".concat(REQUEST_PATH), HOST_URL);
+  var parameter = new URLSearchParams({
+    part: 'snippet',
+    maxResults: _constants__WEBPACK_IMPORTED_MODULE_0__.MAX_DATA_FETCH_AT_ONCE,
+    pageToken: pageToken || '',
+    q: keyword,
+    type: 'video'
+  });
+  url.search = parameter.toString();
+  return url;
 };
 
 /***/ }),
