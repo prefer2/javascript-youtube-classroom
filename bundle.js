@@ -898,7 +898,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SAVE_KEY": () => (/* binding */ SAVE_KEY),
 /* harmony export */   "SCROLL_BUFFER_HEIGHT": () => (/* binding */ SCROLL_BUFFER_HEIGHT),
 /* harmony export */   "SCROLL_BUFFER_SECOND": () => (/* binding */ SCROLL_BUFFER_SECOND),
-/* harmony export */   "SEARCH_KEYWORD_MIN_LENGTH": () => (/* binding */ SEARCH_KEYWORD_MIN_LENGTH)
+/* harmony export */   "SEARCH_KEYWORD_MIN_LENGTH": () => (/* binding */ SEARCH_KEYWORD_MIN_LENGTH),
+/* harmony export */   "SECOND_HOST_URL": () => (/* binding */ SECOND_HOST_URL)
 /* harmony export */ });
 var SEARCH_KEYWORD_MIN_LENGTH = 2;
 var MAX_VIDEO_SAVE = 100;
@@ -921,6 +922,7 @@ var ALERT_MESSAGE = {
 };
 var REQUEST_PATH = 'youtube/v3/search';
 var HOST_URL = 'https://brave-lichterman-77e301.netlify.app/';
+var SECOND_HOST_URL = 'https://distracted-ritchie-97635e.netlify.app/';
 var FAKE_DATA = [{
   id: '3iM_06QeZi8',
   thumbnail: 'https://i.ytimg.com/vi/3iM_06QeZi8/mqdefault.jpg',
@@ -1059,7 +1061,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var createAPI = function createAPI(keyword, pageToken, dummy) {
-  var url = new URL("".concat(dummy ? "dummy/".concat(_constants__WEBPACK_IMPORTED_MODULE_0__.REQUEST_PATH) : _constants__WEBPACK_IMPORTED_MODULE_0__.REQUEST_PATH), _constants__WEBPACK_IMPORTED_MODULE_0__.HOST_URL);
+  var url = new URL("".concat(dummy ? "dummy/".concat(_constants__WEBPACK_IMPORTED_MODULE_0__.REQUEST_PATH) : _constants__WEBPACK_IMPORTED_MODULE_0__.REQUEST_PATH), _constants__WEBPACK_IMPORTED_MODULE_0__.SECOND_HOST_URL);
   var parameter = new URLSearchParams({
     part: 'snippet',
     maxResults: _constants__WEBPACK_IMPORTED_MODULE_0__.MAX_DATA_FETCH_AT_ONCE,
